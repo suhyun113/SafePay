@@ -8,15 +8,14 @@ exports.createPayment = async (req, res) => {
     const nonce = generateNonce();
     const timestamp = Date.now().toString();
     const payload = `${nonce}.${timestamp}.${amount}`;
-
     const signature = signPayload(payload, process.env.JWT_SECRET);
 
     await Order.createOrder(userId, item, amount, nonce, signature);
 
     res.json({
-        nonce,
-        timestamp,
-        signature,
-        safePayload: payload
+        success: true,
+        rawRequest: { nonce, timestamp, item, amount },
+        signedPayload: payload,
+        signature
     });
 };
