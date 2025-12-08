@@ -8,6 +8,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<DualPanel />} />
+        <Route path="/auth" element={<Auth />} />
         <Route path="/safe" element={<SafeFlow />} />
         <Route path="/attack" element={<AttackFlow />} />
       </Routes>
