@@ -6,5 +6,6 @@ const { verifyAccess } = require('../middleware/authMiddleware');
 router.post('/signup', auth.signup);
 router.post('/login', auth.login);
 router.post('/logout', verifyAccess, auth.logout);
+router.get('/refresh', auth.refresh);
 
 module.exports = router;
