@@ -7,6 +7,13 @@ exports.createUser = async (email, hashedPw) => {
     await db.execute(sql, [email, hashedPw]);
 };
 
+exports.findUserById = async (id) => {
+    const [rows] = await db.execute(
+        `SELECT * FROM users WHERE id = ?`, [id]
+    );
+    return rows[0];
+};
+
 exports.findUserByEmail = async (email) => {
     const [rows] = await db.execute(
         `SELECT * FROM users WHERE email = ?`, [email]
