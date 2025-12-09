@@ -1,5 +1,6 @@
 import { useState } from "react";
 import api from "../api/axios";
+import "../style/auth.css";
 
 export default function Auth() {
   const [email, setEmail] = useState("");
@@ -17,18 +18,11 @@ export default function Auth() {
   };
 
   return (
-    <div>
-      <h2>Signup / Login</h2>
+    <div className="auth-container">
+      <h2>Login / Signup</h2>
 
-      <input
-        placeholder="email"
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        placeholder="password"
-        type="password"
-        onChange={(e) => setPw(e.target.value)}
-      />
+      <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+      <input placeholder="Password" type="password" onChange={(e) => setPw(e.target.value)} />
 
       <button onClick={signup}>Signup</button>
       <button onClick={login}>Login</button>

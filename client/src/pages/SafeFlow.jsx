@@ -1,29 +1,32 @@
 import { useState } from "react";
 import api from "../api/axios";
+import "../style/safe.css";
 
 export default function SafeFlow() {
   const [result, setResult] = useState(null);
 
-  const pay = async () => {
-    const access = localStorage.getItem("access");
+  const handlePayment = async () => {
+    const token = localStorage.getItem("access");
+    if (!token) return alert("로그인이 필요합니다.");
 
     const res = await api.post(
       "/payment/create",
       { item: "Book", amount: 5000 },
-      { headers: { Authorization: `Bearer ${access}` } }
+      { headers: { Authorization: `Bearer ${token}` } }
     );
 
     setResult(res.data);
   };
 
   return (
-    <div>
-      <h1>Safe Payment Simulation</h1>
-      <button onClick={pay}>Start Safe Payment</button>
+    <div className="safe-container">
+      <button className="safe-btn" onClick={handlePayment}>
+        보안 결제 요청
+      </button>
 
       {result && (
-        <pre style={{ background: "#111", color: "#0f0", padding: 20 }}>
-{JSON.stringify(result, null, 2)}
+        <pre className="safe-output">
+          {JSON.stringify(result, null, 2)}
         </pre>
       )}
     </div>
