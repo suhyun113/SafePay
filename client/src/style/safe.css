@@ -1,0 +1,19 @@
+.safe-container {
+  margin-top: 15px;
+}
+
+.safe-btn {
+  padding: 10px 14px;
+  background: #2a9d8f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.safe-output {
+  margin-top: 20px;
+  background: #0d1b2a;
+  color: #00eaff;
+  padding: 20px;
+  border-radius: 8px;
+}

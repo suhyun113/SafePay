@@ -1,0 +1,15 @@
+.dual-wrapper {
+  display: flex;
+  height: calc(100vh - 60px);
+}
+
+.panel {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  border-right: 1px solid #ccc;
+}
+
+.right-panel {
+  border-right: none;
+}
