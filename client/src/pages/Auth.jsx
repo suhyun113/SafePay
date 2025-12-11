@@ -7,10 +7,14 @@ export default function Auth() {
   const [pw, setPw] = useState("");
 
   const signup = async () => {
-    const res = await api.post("/auth/signup", { email, password: pw });
-    alert(res.data.message);
+    try {
+      const res = await api.post("/auth/signup", { email, password: pw });
+      alert(res.data.message);
+    } catch (err) {
+      alert(err.response?.data?.message || "Signup failed");
+    }
   };
-
+  
   const login = async () => {
     const res = await api.post("/auth/login", { email, password: pw });
     localStorage.setItem("access", res.data.accessToken);
