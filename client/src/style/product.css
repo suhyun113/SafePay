@@ -25,3 +25,9 @@
 .product-btn:active {
   transform: translateY(0px);
 }
+
+.product-btn.selected {
+  background: #2a9d8f;
+  border: 2px solid #21867a;
+  box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.3);
+}

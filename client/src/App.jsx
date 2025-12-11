@@ -7,6 +7,7 @@ import SafeFlow from "./pages/SafeFlow";
 import AttackFlow from "./pages/AttackFlow";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
+import Logs from "./pages/Logs";
 import Guide from "./pages/Guide";
 
 import "./index.css";
@@ -23,6 +24,7 @@ export default function App() {
         <Route path="/attack" element={<AttackFlow />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/logs" element={<Logs />} />
         <Route path="/guide" element={<Guide />} />
       </Routes>
     </BrowserRouter>

@@ -11,6 +11,7 @@ const authRoutes = require('./routes/auth');
 const paymentRoutes = require('./routes/payment');
 const attackRoutes = require('./routes/attack');
 const shopRoutes = require("./routes/shop");
+const securityRoutes = require('./routes/security');
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/attack', attackRoutes);
 app.use("/api/shop", shopRoutes);
+app.use('/api/security', securityRoutes);
 
 app.get('/', (req, res) => {
     res.send('SafePay Server Running');

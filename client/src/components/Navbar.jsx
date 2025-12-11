@@ -18,6 +18,7 @@ export default function Navbar() {
         <Link to="/" className="nav-logo">SafePay</Link>
         <Link to="/compare" className="nav-item">Compare</Link>
         <Link to="/dashboard" className="nav-item">Dashboard</Link>
+        <Link to="/logs" className="nav-item">Logs</Link>
       </div>
 
       <div className="nav-right">
