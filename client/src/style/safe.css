@@ -1,19 +1,27 @@
 .safe-container {
-  margin-top: 15px;
+  padding: 20px;
 }
 
 .safe-btn {
-  padding: 10px 14px;
   background: #2a9d8f;
   color: white;
+  padding: 12px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.safe-btn:hover {
+  background: #21867a;
 }
 
 .safe-output {
-  margin-top: 20px;
-  background: #0d1b2a;
-  color: #00eaff;
-  padding: 20px;
+  background: #f8f9fa;
+  padding: 15px;
   border-radius: 8px;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #333;
 }

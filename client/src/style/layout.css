@@ -1,24 +1,45 @@
 .compare-container {
   padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .compare-title {
   font-size: 22px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  color: #333;
 }
 
 .product-selector {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .compare-panels {
   display: flex;
   gap: 30px;
+  flex-wrap: wrap;
 }
 
 .panel {
   flex: 1;
-  background: #fafafa;
-  padding: 20px;
+  min-width: 400px;
+  background: white;
+  padding: 25px;
   border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.panel h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 20px;
+}
+
+.safe-panel {
+  border-top: 4px solid #2a9d8f;
+}
+
+.attack-panel {
+  border-top: 4px solid #e76f51;
 }

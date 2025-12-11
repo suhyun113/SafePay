@@ -1,11 +1,15 @@
 .home-container {
-  padding: 40px;
+  padding: 60px 40px;
   text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .home-title {
-  font-size: 32px;
+  font-size: 36px;
   font-weight: bold;
+  color: #20232a;
+  margin-bottom: 20px;
 }
 
 .home-subtitle {
@@ -31,4 +35,29 @@
 
 .home-card:hover {
   transform: translateY(-5px);
+}
+
+.home-desc {
+  font-size: 18px;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 40px;
+}
+
+.home-btn {
+  display: inline-block;
+  padding: 15px 30px;
+  background: #457b9d;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.home-btn:hover {
+  background: #356f89;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(69, 123, 157, 0.3);
 }

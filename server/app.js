@@ -10,12 +10,17 @@ const { limit } = require('./middleware/rateLimit');
 const authRoutes = require('./routes/auth');
 const paymentRoutes = require('./routes/payment');
 const attackRoutes = require('./routes/attack');
+const shopRoutes = require("./routes/shop");
 
 const app = express();
 
 // 보안 미들웨어
 app.use(helmet());
-app.use(cors({ origin: true, credentials: true }));
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true,
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 app.use(express.json());
 app.use(cookieParser());
 app.use(logger);
@@ -25,6 +30,7 @@ app.use(limit);
 app.use('/api/auth', authRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/attack', attackRoutes);
+app.use("/api/shop", shopRoutes);
 
 app.get('/', (req, res) => {
     res.send('SafePay Server Running');

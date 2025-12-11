@@ -6,7 +6,7 @@ export default function ProductSelector({ onSelect }) {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    api.get("/payment/products")
+    api.get("/shop/products")
       .then((res) => setProducts(res.data.products))
       .catch(() => alert("상품을 불러오지 못했습니다."));
   }, []);
