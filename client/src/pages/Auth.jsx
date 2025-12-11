@@ -1,10 +1,12 @@
 import { useState } from "react";
 import api from "../api/axios";
 import "../style/auth.css";
+import { useAppStore } from "../store/useAppStore";
 
 export default function Auth() {
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
+  const loginState = useAppStore((state) => state.login);
 
   const signup = async () => {
     try {
@@ -14,11 +16,17 @@ export default function Auth() {
       alert(err.response?.data?.message || "Signup failed");
     }
   };
-  
+
   const login = async () => {
-    const res = await api.post("/auth/login", { email, password: pw });
-    localStorage.setItem("access", res.data.accessToken);
-    alert("Login success");
+    try {
+      const res = await api.post("/auth/login", { email, password: pw });
+      localStorage.setItem("access", res.data.accessToken);
+
+      loginState(); // ← 로그인 상태 업데이트
+      alert("Login success");
+    } catch (err) {
+      alert(err.response?.data?.message || "Login failed");
+    }
   };
 
   return (

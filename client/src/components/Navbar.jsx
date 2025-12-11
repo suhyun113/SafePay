@@ -1,12 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
 import "../style/navbar.css";
+import { useAppStore } from "../store/useAppStore";
 
 export default function Navbar() {
+  const isLoggedIn = useAppStore((state) => state.isLoggedIn);
+  const logout = useAppStore((state) => state.logout);
   const navigate = useNavigate();
 
-  const logout = () => {
-    localStorage.removeItem("access");
+  const handleLogout = () => {
     alert("Logout 성공");
+    logout();
     navigate("/auth");
   };
 
@@ -23,8 +26,16 @@ export default function Navbar() {
       </div>
 
       <div className="nav-right">
-        <Link to="/auth" className="nav-item">Login</Link>
-        <button className="logout-btn" onClick={logout}>Logout</button>
+        {!isLoggedIn ? (
+          <>
+            <Link to="/auth" className="nav-item">Login</Link>
+            <Link to="/auth" className="nav-item">Signup</Link>
+          </>
+        ) : (
+          <button className="logout-btn" onClick={handleLogout}>
+            Logout
+          </button>
+        )}
       </div>
     </nav>
   );
