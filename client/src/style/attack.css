@@ -2,6 +2,10 @@
   padding: 20px;
 }
 
+.attack-type-section {
+  margin-bottom: 20px;
+}
+
 .attack-btn-group {
   display: flex;
   gap: 15px;
@@ -14,13 +18,46 @@
   color: white;
   padding: 12px 20px;
   border-radius: 6px;
-  border: none;
+  border: 2px solid transparent;
   cursor: pointer;
   font-size: 16px;
+  transition: all 0.2s;
 }
 
-.attack-btn:hover {
+.attack-btn:hover:not(:disabled) {
   background: #d85b3d;
+}
+
+.attack-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.attack-btn.selected {
+  background: #d85b3d;
+  border-color: #c04a2d;
+  box-shadow: 0 0 0 3px rgba(231, 111, 81, 0.3);
+  font-weight: 600;
+}
+
+.attack-request-btn {
+  background: #e76f51;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.attack-request-btn:hover:not(:disabled) {
+  background: #d85b3d;
+}
+
+.attack-request-btn:disabled {
+  background: rgba(231, 111, 81, 0.5);
+  cursor: not-allowed;
 }
 
 .attack-output {
