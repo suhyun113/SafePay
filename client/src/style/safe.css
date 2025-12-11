@@ -18,10 +18,13 @@
 }
 
 .safe-output {
-  background: #f8f9fa;
+  background: #e8f5e9;
+  border-left: 4px solid #2a9d8f;
   padding: 15px;
-  border-radius: 8px;
   margin-top: 20px;
-  font-size: 14px;
+  border-radius: 8px;
   color: #333;
+  font-size: 14px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }

@@ -33,13 +33,9 @@ export default function SafeFlow({ product }) {
       </button>
 
       {result && (
-        <div className="safe-output">
-          {result.error ? (
-            <div style={{ color: "#e76f51" }}>❌ {result.error}</div>
-          ) : (
-            <pre>{JSON.stringify(result, null, 2)}</pre>
-          )}
-        </div>
+        <pre className="safe-output">
+          {JSON.stringify(result, null, 2)}
+        </pre>
       )}
     </div>
   );
