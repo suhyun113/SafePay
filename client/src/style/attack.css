@@ -1,19 +1,52 @@
-.attack-container {
-  margin-top: 20px;
-}
-
-.attack-btn-group button {
-  margin-right: 10px;
-  padding: 10px 14px;
-  background: #e76f51;
-  border: none;
-  color: white;
-}
-
-.attack-output {
-  margin-top: 20px;
-  background: black;
-  color: #ff6b6b;
+.attack-flow {
   padding: 20px;
-  border-radius: 8px;
+}
+
+/* 선택된 상품 안내 */
+.selected-item {
+  font-size: 16px;
+  margin-bottom: 15px;
+  color: #444;
+}
+
+/* 버튼 그룹 */
+.attack-buttons {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+/* 버튼 스타일 */
+.attack-buttons button {
+  background: #e76f51;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.attack-buttons button:hover {
+  background: #d65a3f;
+  transform: translateY(-2px);
+}
+
+.attack-buttons button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 공격 결과 로그 */
+.attack-output {
+  background: #2a2a2a;
+  padding: 15px;
+  border-radius: 6px;
+  color: #f88;
+  font-size: 14px;
+  white-space: pre-wrap;
+  margin-top: 10px;
 }

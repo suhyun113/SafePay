@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import api from "../api/axios";
+import "../style/product.css";
 
 export default function ProductSelector({ onSelect }) {
   const [products, setProducts] = useState([]);
@@ -7,15 +8,13 @@ export default function ProductSelector({ onSelect }) {
   useEffect(() => {
     api.get("/payment/products")
       .then((res) => setProducts(res.data.products))
-      .catch((err) => console.error("상품 로드 실패:", err));
+      .catch(() => alert("상품을 불러오지 못했습니다."));
   }, []);
 
   return (
-    <div>
-      <h3>상품 선택</h3>
-
+    <div className="product-selector">
       {products.map((p) => (
-        <button key={p.id} onClick={() => onSelect(p)}>
+        <button key={p.id} className="product-btn" onClick={() => onSelect(p)}>
           {p.name} - {p.price}원
         </button>
       ))}

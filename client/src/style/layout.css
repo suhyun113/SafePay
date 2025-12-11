@@ -1,25 +1,24 @@
-.compare-wrapper {
-  width: 100%;
+.compare-container {
+  padding: 20px;
 }
 
-.selector-box {
-  text-align: center;
-  padding: 15px;
-  border-bottom: 1px solid #ccc;
+.compare-title {
+  font-size: 22px;
+  margin-bottom: 10px;
 }
 
-.dual-wrapper {
+.product-selector {
+  margin-bottom: 20px;
+}
+
+.compare-panels {
   display: flex;
-  height: calc(100vh - 100px);
+  gap: 30px;
 }
 
 .panel {
   flex: 1;
+  background: #fafafa;
   padding: 20px;
-  overflow-y: auto;
-  border-right: 1px solid #ccc;
-}
-
-.right-panel {
-  border-right: none;
+  border-radius: 8px;
 }

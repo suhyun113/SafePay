@@ -1,0 +1,27 @@
+.product-selector {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 15px 0 25px;
+}
+
+.product-btn {
+  padding: 10px 18px;
+  background: #457b9d;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.product-btn:hover {
+  background: #356f89;
+  transform: translateY(-2px);
+}
+
+.product-btn:active {
+  transform: translateY(0px);
+}
