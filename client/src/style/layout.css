@@ -1,6 +1,16 @@
+.compare-wrapper {
+  width: 100%;
+}
+
+.selector-box {
+  text-align: center;
+  padding: 15px;
+  border-bottom: 1px solid #ccc;
+}
+
 .dual-wrapper {
   display: flex;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 100px);
 }
 
 .panel {
