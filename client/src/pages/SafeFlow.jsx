@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import api from "../api/axios";
 import "../style/safe.css";
 
 export default function SafeFlow({ product }) {
   const [result, setResult] = useState(null);
+  const [events, setEvents] = useState([]);
+  const now = () => new Date().toLocaleTimeString();
+  const safeTitle = useMemo(() => "Safe Flow", []);
 
   const handlePayment = async () => {
     if (!product) {
@@ -19,6 +22,10 @@ export default function SafeFlow({ product }) {
 
     try {
       console.log("결제 요청 시작:", { item: product.name, amount: product.price });
+      setEvents((prev) => [
+        { type: "request", title: "보안 결제 요청 전송", detail: { item: product.name, amount: product.price, mode: "safe" }, time: now() },
+        ...prev,
+      ]);
       
       const res = await api.post(
         "/payment/checkout",
@@ -28,6 +35,10 @@ export default function SafeFlow({ product }) {
 
       console.log("결제 요청 성공:", res.data);
       setResult(res.data);
+      setEvents((prev) => [
+        { type: "response", title: "서버 응답 (보안 검증 통과)", detail: res.data, time: now(), success: true },
+        ...prev,
+      ]);
       
       if (res.data.success) {
         alert("결제가 성공적으로 완료되었습니다!");
@@ -41,6 +52,10 @@ export default function SafeFlow({ product }) {
         error: errorMsg,
         details: err.response?.data 
       });
+      setEvents((prev) => [
+        { type: "response", title: "서버 응답 (실패)", detail: err.response?.data || errorMsg, time: now(), success: false },
+        ...prev,
+      ]);
     }
   };
 
@@ -74,6 +89,31 @@ export default function SafeFlow({ product }) {
       >
         보안 결제 요청
       </button>
+
+      <div className="live-log">
+        <div className="live-log-header">
+          <span>{safeTitle} 실시간 로그</span>
+          <span className="live-log-hint">요청 · 응답 흐름을 시간순으로 표시</span>
+        </div>
+        {events.length === 0 ? (
+          <div className="live-log-empty">아직 전송된 요청이 없습니다.</div>
+        ) : (
+          <ul className="live-log-list">
+            {events.map((e, idx) => (
+              <li key={idx} className="live-log-item">
+                <div className="live-log-meta">
+                  <span className={`status-badge ${e.success === false ? "failed" : e.success === true ? "success" : "info"}`}>
+                    {e.type === "request" ? "요청" : e.success === false ? "차단" : "성공"}
+                  </span>
+                  <span className="live-log-time">{e.time}</span>
+                </div>
+                <div className="live-log-title">{e.title}</div>
+                <pre className="live-log-body">{JSON.stringify(e.detail, null, 2)}</pre>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
 
       {result && (
         <pre className="safe-output">

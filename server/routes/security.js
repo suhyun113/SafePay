@@ -17,3 +17,4 @@ router.get('/audit-logs', verifyAccess, security.getAuditLogs);
 
 module.exports = router;
 
+

@@ -53,3 +53,4 @@ SHOW TABLES FROM safepay;
 - attack_logs
 - security_logs
 
+

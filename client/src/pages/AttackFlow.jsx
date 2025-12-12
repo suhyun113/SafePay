@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import api from "../api/axios";
 import "../style/attack.css";
 
 export default function AttackFlow({ product }) {
   const [selectedAttackType, setSelectedAttackType] = useState(null);
   const [log, setLog] = useState("");
+  const [events, setEvents] = useState([]);
+  const now = () => new Date().toLocaleTimeString();
+  const attackTitle = useMemo(() => "Attack Flow", []);
 
   const handleAttackRequest = async () => {
     if (!product) {
@@ -29,6 +32,10 @@ export default function AttackFlow({ product }) {
         amount: product.price,
         attackType: selectedAttackType 
       });
+      setEvents((prev) => [
+        { type: "request", title: "공격 시뮬레이션 요청 전송", detail: { item: product.name, amount: product.price, attackType: selectedAttackType }, time: now() },
+        ...prev,
+      ]);
 
       const res = await api.post(
         "/payment/checkout",
@@ -42,11 +49,19 @@ export default function AttackFlow({ product }) {
       
       console.log("공격 시뮬레이션 성공:", res.data);
       setLog(JSON.stringify(res.data, null, 2));
+      setEvents((prev) => [
+        { type: "response", title: "서버 응답 (공격 처리 결과)", detail: res.data, time: now(), success: res.data.success },
+        ...prev,
+      ]);
     } catch (err) {
       console.error("공격 시뮬레이션 실패:", err);
       const errorData = err.response?.data || { message: "공격 시뮬레이션 실패" };
       console.error("에러 상세:", errorData);
       setLog(JSON.stringify(errorData, null, 2));
+      setEvents((prev) => [
+        { type: "response", title: "서버 응답 (실패)", detail: err.response?.data || err.message, time: now(), success: false },
+        ...prev,
+      ]);
     }
   };
 
@@ -144,6 +159,31 @@ export default function AttackFlow({ product }) {
       >
         보안 결제 요청
       </button>
+
+      <div className="live-log">
+        <div className="live-log-header">
+          <span>{attackTitle} 실시간 로그</span>
+          <span className="live-log-hint">요청 · 응답 흐름을 시간순으로 표시</span>
+        </div>
+        {events.length === 0 ? (
+          <div className="live-log-empty">아직 전송된 요청이 없습니다.</div>
+        ) : (
+          <ul className="live-log-list">
+            {events.map((e, idx) => (
+              <li key={idx} className="live-log-item">
+                <div className="live-log-meta">
+                  <span className={`status-badge ${e.success === false ? "failed" : e.success === true ? "success" : "info"}`}>
+                    {e.type === "request" ? "요청" : e.success === false ? "차단" : e.success ? "성공" : "응답"}
+                  </span>
+                  <span className="live-log-time">{e.time}</span>
+                </div>
+                <div className="live-log-title">{e.title}</div>
+                <pre className="live-log-body">{JSON.stringify(e.detail, null, 2)}</pre>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
 
       {log && (
         <pre className="attack-output">

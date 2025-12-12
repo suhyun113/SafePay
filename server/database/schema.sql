@@ -20,3 +20,4 @@ CREATE TABLE IF NOT EXISTS attack_logs (
     INDEX idx_created_at (created_at)
 );
 
+

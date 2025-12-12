@@ -17,6 +17,11 @@
   background: #21867a;
 }
 
+.safe-btn:disabled {
+  background: rgba(42, 157, 143, 0.5);
+  cursor: not-allowed;
+}
+
 .safe-output {
   background: #e8f5e9;
   border-left: 4px solid #2a9d8f;

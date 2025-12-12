@@ -13,3 +13,4 @@ CREATE TABLE IF NOT EXISTS security_logs (
     INDEX idx_created_at (created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='보안 로그 테이블';
 
+
