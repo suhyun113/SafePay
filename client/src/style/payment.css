@@ -1,0 +1,14 @@
+.payment-bar {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.pay-btn {
+  padding: 14px 40px;
+  font-size: 18px;
+  background: linear-gradient(135deg, #2a9d8f, #264653);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+}

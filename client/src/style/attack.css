@@ -1,188 +1,23 @@
-.attack-container {
-  padding: 20px;
-}
-
-.live-log {
-  margin-top: 16px;
-  background: #fbecec;
-  border: 1px solid #f3d2cb;
-  border-radius: 8px;
-  padding: 12px;
-}
-
-.live-log-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-  color: #d85b3d;
-  font-weight: 700;
-}
-
-.live-log-hint {
-  color: #9c4f3c;
-  font-weight: 500;
-  font-size: 12px;
-}
-
-.live-log-empty {
-  color: #9c4f3c;
-  font-size: 13px;
-  padding: 8px 0;
-}
-
-.live-log-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.live-log-item {
-  background: #fff6f4;
-  border: 1px solid #f3d2cb;
-  border-radius: 8px;
-  padding: 10px;
-}
-
-.live-log-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 6px;
-  font-size: 12px;
-  color: #9c4f3c;
-}
-
-.live-log-title {
-  font-weight: 700;
-  color: #d85b3d;
-  margin-bottom: 6px;
-}
-
-.live-log-body {
-  background: #fff;
-  border-radius: 6px;
-  padding: 8px;
-  font-size: 12px;
-  border: 1px solid #f3d2cb;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
-
-.live-log-time {
-  color: #b06a55;
-}
-
-.status-badge {
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: 10px;
-  font-size: 11px;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.status-badge.success {
-  background: #1f7f73;
-  color: #ffffff;
-}
-
-.status-badge.failed {
-  background: #c4452f;
-  color: #ffffff;
-}
-
-.status-badge.info {
-  background: #6c757d;
-}
-
-.attack-type-section {
-  margin-bottom: 20px;
+.attack-toggle {
+  margin-left: 10px;
+  font-size: 14px;
 }
 
 .attack-btn-group {
   display: flex;
-  gap: 15px;
+  flex-direction: column;
+  gap: 8px;
   margin-top: 10px;
-  flex-wrap: wrap;
 }
 
 .attack-btn {
-  background: #e76f51;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 6px;
-  border: 2px solid transparent;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
   cursor: pointer;
-  font-size: 16px;
-  transition: all 0.2s;
-}
-
-.attack-btn:hover:not(:disabled) {
-  background: #d85b3d;
-}
-
-.attack-btn:disabled {
-  background: #ccc;
-  cursor: not-allowed;
 }
 
 .attack-btn.selected {
-  background: #d85b3d;
-  border-color: #c04a2d;
-  box-shadow: 0 0 0 3px rgba(231, 111, 81, 0.3);
-  font-weight: 600;
-}
-
-.attack-request-btn {
-  background: #e76f51;
+  background: #e63946;
   color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-.attack-request-btn:hover:not(:disabled) {
-  background: #d85b3d;
-}
-
-.attack-request-btn:disabled {
-  background: rgba(231, 111, 81, 0.5);
-  cursor: not-allowed;
-}
-
-.notice {
-  margin-top: 12px;
-  padding: 12px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 14px;
-}
-
-.notice-success {
-  background: #e8f5e9;
-  color: #1f7f73;
-  border: 1px solid #cbe9d9;
-}
-
-.notice-error {
-  background: #fbecec;
-  color: #c4452f;
-  border: 1px solid #f3d2cb;
-}
-
-.attack-output {
-  background: #fbecec;
-  border-left: 4px solid #d85b3d;
-  padding: 15px;
-  margin-top: 20px;
-  border-radius: 8px;
-  color: #333;
-  font-size: 14px;
 }
