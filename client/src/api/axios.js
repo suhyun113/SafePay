@@ -1,12 +1,21 @@
 import axios from "axios";
+import { useAppStore } from "../store/useAppStore";
 
 const api = axios.create({
-  baseURL: "http://localhost:4000/api",
+  baseURL: "/api",
   withCredentials: true,
-  headers: {
-    "Content-Type": "application/json",
-    "Accept": "*/*"
-  }
 });
+
+api.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    if (err.response?.status === 401) {
+      // 토큰 만료 → 강제 로그아웃
+      localStorage.removeItem("access");
+      useAppStore.getState().logout();
+    }
+    return Promise.reject(err);
+  }
+);
 
 export default api;

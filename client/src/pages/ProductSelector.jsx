@@ -1,11 +1,21 @@
 import { useEffect, useState } from "react";
 import api from "../api/axios";
 import "../style/product.css";
+import { useAppStore } from "../store/useAppStore";
 
 export default function ProductSelector({ onSelect }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const isLoggedIn = useAppStore((s) => s.isLoggedIn);
+
+  if (!isLoggedIn) {
+    return (
+      <div className="product-selector disabled">
+        <p>🔒 로그인이 필요합니다.</p>
+      </div>
+    );
+  }
 
   useEffect(() => {
     const fetchProducts = async () => {

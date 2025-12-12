@@ -2,8 +2,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 
-const ACCESS_EXPIRE = "10m";
-const REFRESH_EXPIRE = "7d";
+const ACCESS_EXPIRE = "1h";
+const REFRESH_EXPIRE = "14d";
 
 /* =====================
    SIGNUP
