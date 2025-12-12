@@ -33,8 +33,8 @@ export default function AttackFlow({ product }) {
         attackType: selectedAttackType 
       });
       setEvents((prev) => [
-        { type: "request", title: "공격 시뮬레이션 요청 전송", detail: { item: product.name, amount: product.price, attackType: selectedAttackType }, time: now() },
         ...prev,
+        { type: "request", title: "공격 시뮬레이션 요청 전송", detail: { item: product.name, amount: product.price, attackType: selectedAttackType }, time: now() },
       ]);
 
       const res = await api.post(
@@ -50,8 +50,8 @@ export default function AttackFlow({ product }) {
       console.log("공격 시뮬레이션 성공:", res.data);
       setLog(JSON.stringify(res.data, null, 2));
       setEvents((prev) => [
-        { type: "response", title: "서버 응답 (공격 처리 결과)", detail: res.data, time: now(), success: res.data.success },
         ...prev,
+        { type: "response", title: "서버 응답 (공격 처리 결과)", detail: res.data, time: now(), success: res.data.success },
       ]);
     } catch (err) {
       console.error("공격 시뮬레이션 실패:", err);
@@ -59,8 +59,8 @@ export default function AttackFlow({ product }) {
       console.error("에러 상세:", errorData);
       setLog(JSON.stringify(errorData, null, 2));
       setEvents((prev) => [
-        { type: "response", title: "서버 응답 (실패)", detail: err.response?.data || err.message, time: now(), success: false },
         ...prev,
+        { type: "response", title: "서버 응답 (실패)", detail: err.response?.data || err.message, time: now(), success: false },
       ]);
     }
   };

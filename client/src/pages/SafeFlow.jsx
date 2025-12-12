@@ -23,8 +23,8 @@ export default function SafeFlow({ product }) {
     try {
       console.log("결제 요청 시작:", { item: product.name, amount: product.price });
       setEvents((prev) => [
-        { type: "request", title: "보안 결제 요청 전송", detail: { item: product.name, amount: product.price, mode: "safe" }, time: now() },
         ...prev,
+        { type: "request", title: "보안 결제 요청 전송", detail: { item: product.name, amount: product.price, mode: "safe" }, time: now() },
       ]);
       
       const res = await api.post(
@@ -36,8 +36,8 @@ export default function SafeFlow({ product }) {
       console.log("결제 요청 성공:", res.data);
       setResult(res.data);
       setEvents((prev) => [
-        { type: "response", title: "서버 응답 (보안 검증 통과)", detail: res.data, time: now(), success: true },
         ...prev,
+        { type: "response", title: "서버 응답 (보안 검증 통과)", detail: res.data, time: now(), success: true },
       ]);
       
       if (res.data.success) {
@@ -53,8 +53,8 @@ export default function SafeFlow({ product }) {
         details: err.response?.data 
       });
       setEvents((prev) => [
-        { type: "response", title: "서버 응답 (실패)", detail: err.response?.data || errorMsg, time: now(), success: false },
         ...prev,
+        { type: "response", title: "서버 응답 (실패)", detail: err.response?.data || errorMsg, time: now(), success: false },
       ]);
     }
   };

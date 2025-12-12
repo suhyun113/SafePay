@@ -82,15 +82,15 @@
   border-radius: 10px;
   font-size: 11px;
   font-weight: 700;
-  color: white;
+  color: #ffffff;
 }
 
 .status-badge.success {
-  background: #2a9d8f;
+  background: #1f7f73;
 }
 
 .status-badge.failed {
-  background: #e76f51;
+  background: #c4452f;
 }
 
 .status-badge.info {
