@@ -7,11 +7,8 @@ const cookieParser = require('cookie-parser'); // HTTP 요청의 쿠키를 파�
 const helmet = require('helmet'); // HTTP 보안 헤더를 자동 설정하여 XSS, Clickjacking 등 공격 완화
 const logger = require('./middleware/logger'); // 모든 HTTP 요청을 파일 기반 감사 로그로 기록하는 미들웨어
 
-const { limit } = require('./middleware/rateLimit'); // 과도한 요청을 제한하여 DoS 및 무차별 공격을 방지하는 미들웨어
-
 const authRoutes = require('./routes/auth'); // 회원가입, 로그인, 토큰 관련 인증 API 라우트
 const paymentRoutes = require('./routes/payment'); // 결제 및 무결성 검증 관련 API 라우트
-const attackRoutes = require('./routes/attack'); // 공격 시뮬레이션 전용 API 라우트
 const shopRoutes = require("./routes/shop"); // 상품 목록 및 조회 관련 API 라우트
 const securityRoutes = require('./routes/security'); // 보안 로그, 공격 로그, 통계 조회 API 라우트
 
@@ -36,17 +33,11 @@ app.use(cookieParser());
 // 모든 요청에 대해 감사 로그 기록
 app.use(logger);
 
-// IP 기반 요청 횟수 제한 적용
-app.use(limit);
-
 // 인증 관련 API
 app.use('/api/auth', authRoutes);
 
 // 결제 및 무결성 검증 API
 app.use('/api/payment', paymentRoutes);
-
-// 공격 시뮬레이션 API
-app.use('/api/attack', attackRoutes);
 
 // 상품 조회 API
 app.use("/api/shop", shopRoutes);
