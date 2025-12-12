@@ -3,8 +3,8 @@ import Navbar from "./components/Navbar";
 
 import Home from "./pages/Home";
 import Compare from "./pages/Compare";
-import SafeFlow from "./pages/SafeFlow";
-import AttackFlow from "./pages/AttackFlow";
+import SafeFlow from "./components/SafeFlow";
+import AttackFlow from "./components/AttackFlow";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import Logs from "./pages/Logs";

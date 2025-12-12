@@ -1,7 +1,7 @@
 import { useState } from "react";
-import ProductSelector from "./ProductSelector";
-import SafeFlow from "./SafeFlow";
-import AttackFlow from "./AttackFlow";
+import ProductSelector from "../components/ProductSelector";
+import SafeFlow from "../components/SafeFlow";
+import AttackFlow from "../components/AttackFlow";
 import PaymentButton from "../components/PaymentButton";
 import "../style/layout.css";
 
