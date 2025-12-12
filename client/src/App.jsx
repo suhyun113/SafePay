@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 
 import Home from "./pages/Home";
-import Compare from "./pages/SecurityLab";
+import Compare from "./pages/Compare";
 import SafeFlow from "./pages/SafeFlow";
 import AttackFlow from "./pages/AttackFlow";
 import Auth from "./pages/Auth";

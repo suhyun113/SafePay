@@ -1,6 +1,7 @@
 import "../style/safe.css";
 
 export default function SafeFlow({ security, setSecurity }) {
+  // 보안 옵션 토글 처리
   const toggle = (key) =>
     setSecurity((prev) => ({ ...prev, [key]: !prev[key] }));
 

@@ -1,0 +1,15 @@
+.dual-panel {
+  display: flex;
+  height: 100vh;
+}
+
+.dual-panel-left {
+  flex: 1;
+  padding: 20px;
+  border-right: 1px solid #ccc;
+}
+
+.dual-panel-right {
+  flex: 1;
+  padding: 20px;
+}

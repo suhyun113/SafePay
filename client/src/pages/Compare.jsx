@@ -6,17 +6,23 @@ import PaymentButton from "../components/PaymentButton";
 import "../style/layout.css";
 
 export default function Compare() {
+  // 선택된 상품 상태
   const [product, setProduct] = useState(null);
 
+  // 보안 옵션 적용 여부 상태
   const [security, setSecurity] = useState({
     signature: true,
     nonce: true,
     timestamp: true,
   });
 
+  // 공격 시뮬레이션 활성화 여부
   const [attackEnabled, setAttackEnabled] = useState(false);
+
+  // 선택된 공격 유형
   const [attackType, setAttackType] = useState("csrf");
 
+  // 결제 요청 결과 로그
   const [logs, setLogs] = useState([]);
 
   return (
@@ -24,11 +30,12 @@ export default function Compare() {
       <div className="compare-container">
         <h2 className="compare-title">보안 결제 시뮬레이터</h2>
 
+        {/* 상품 선택 영역 */}
         <ProductSelector onSelect={setProduct} />
 
+        {/* 보안 흐름 / 공격 흐름 설정 */}
         <div className="compare-panels">
           <SafeFlow security={security} setSecurity={setSecurity} />
-
           <AttackFlow
             enabled={attackEnabled}
             setEnabled={setAttackEnabled}
@@ -37,7 +44,7 @@ export default function Compare() {
           />
         </div>
 
-        {/* 결제 버튼은 항상 아래 */}
+        {/* 결제 요청 버튼 */}
         <PaymentButton
           product={product}
           security={security}
@@ -47,7 +54,7 @@ export default function Compare() {
           setLogs={setLogs}
         />
 
-        {/* 로그 영역 */}
+        {/* 실시간 결과 로그 */}
         <div className="log-panel">
           <h3>실시간 로그 (최신 순)</h3>
 
