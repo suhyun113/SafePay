@@ -2,7 +2,7 @@ import { useState } from "react";
 import ProductSelector from "./ProductSelector";
 import SafeFlow from "./SafeFlow";
 import AttackFlow from "./AttackFlow";
-import PaymentButton from "./PaymentButton";
+import PaymentButton from "../components/PaymentButton";
 import "../style/layout.css";
 
 export default function Compare() {
@@ -22,7 +22,7 @@ export default function Compare() {
   return (
     <div className="main-container">
       <div className="compare-container">
-        <h2 className="compare-title">Secure Payment Simulator</h2>
+        <h2 className="compare-title">보안 결제 시뮬레이터</h2>
 
         <ProductSelector onSelect={setProduct} />
 

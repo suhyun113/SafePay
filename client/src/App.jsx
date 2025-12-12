@@ -2,13 +2,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 
 import Home from "./pages/Home";
-import Compare from "./pages/Compare";
+import Compare from "./pages/SecurityLab";
 import SafeFlow from "./pages/SafeFlow";
 import AttackFlow from "./pages/AttackFlow";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import Logs from "./pages/Logs";
-import Guide from "./pages/Guide";
 
 import "./index.css";
 
@@ -25,7 +24,6 @@ export default function App() {
         <Route path="/auth" element={<Auth />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/logs" element={<Logs />} />
-        <Route path="/guide" element={<Guide />} />
       </Routes>
     </BrowserRouter>
   );

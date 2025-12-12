@@ -16,7 +16,7 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="nav-left">
         <Link to="/" className="nav-logo">SafePay</Link>
-        <Link to="/compare" className="nav-item">Compare</Link>
+        <Link to="/compare" className="nav-item">SecurityLab</Link>
         <Link to="/dashboard" className="nav-item">Dashboard</Link>
         <Link to="/logs" className="nav-item">Logs</Link>
       </div>
