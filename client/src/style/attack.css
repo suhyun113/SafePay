@@ -87,10 +87,12 @@
 
 .status-badge.success {
   background: #1f7f73;
+  color: #ffffff;
 }
 
 .status-badge.failed {
   background: #c4452f;
+  color: #ffffff;
 }
 
 .status-badge.info {
