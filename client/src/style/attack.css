@@ -157,6 +157,26 @@
   cursor: not-allowed;
 }
 
+.notice {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.notice-success {
+  background: #e8f5e9;
+  color: #1f7f73;
+  border: 1px solid #cbe9d9;
+}
+
+.notice-error {
+  background: #fbecec;
+  color: #c4452f;
+  border: 1px solid #f3d2cb;
+}
+
 .attack-output {
   background: #fbecec;
   border-left: 4px solid #d85b3d;

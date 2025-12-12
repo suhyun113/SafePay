@@ -6,6 +6,7 @@ export default function AttackFlow({ product }) {
   const [selectedAttackType, setSelectedAttackType] = useState(null);
   const [log, setLog] = useState("");
   const [events, setEvents] = useState([]);
+  const [notice, setNotice] = useState(null);
   const now = () => new Date().toLocaleTimeString();
   const attackTitle = useMemo(() => "Attack Flow", []);
 
@@ -53,6 +54,16 @@ export default function AttackFlow({ product }) {
         ...prev,
         { type: "response", title: "서버 응답 (공격 처리 결과)", detail: res.data, time: now(), success: res.data.success },
       ]);
+
+      // 사용자 알림 (화면 내 표시)
+      if (res.data.success) {
+        setNotice({ type: "success", message: "공격이 성공했습니다." });
+        alert("공격이 성공했습니다.");
+      } else {
+        const reason = res.data.reason || res.data.message || "공격이 차단되었습니다.";
+        setNotice({ type: "error", message: `공격이 차단되었습니다: ${reason}` });
+        alert(`공격이 차단되었습니다: ${reason}`);
+      }
     } catch (err) {
       console.error("공격 시뮬레이션 실패:", err);
       const errorData = err.response?.data || { message: "공격 시뮬레이션 실패" };
@@ -62,6 +73,9 @@ export default function AttackFlow({ product }) {
         ...prev,
         { type: "response", title: "서버 응답 (실패)", detail: err.response?.data || err.message, time: now(), success: false },
       ]);
+      const reason = errorData.reason || errorData.message || "공격이 차단되었습니다.";
+      setNotice({ type: "error", message: `공격이 차단되었습니다: ${reason}` });
+      alert(`공격이 차단되었습니다: ${reason}`);
     }
   };
 
@@ -159,6 +173,12 @@ export default function AttackFlow({ product }) {
       >
         보안 결제 요청
       </button>
+
+      {notice && (
+        <div className={`notice ${notice.type === "success" ? "notice-success" : "notice-error"}`}>
+          {notice.message}
+        </div>
+      )}
 
       <div className="live-log">
         <div className="live-log-header">
