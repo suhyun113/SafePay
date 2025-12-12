@@ -205,11 +205,6 @@ export default function AttackFlow({ product }) {
         )}
       </div>
 
-      {log && (
-        <pre className="attack-output">
-          {typeof log === 'string' ? log : JSON.stringify(log, null, 2)}
-        </pre>
-      )}
     </div>
   );
 }

@@ -5,6 +5,9 @@ import "../style/safe.css";
 export default function SafeFlow({ product }) {
   const [result, setResult] = useState(null);
   const [events, setEvents] = useState([]);
+  const [useSignature, setUseSignature] = useState(true);
+  const [useNonce, setUseNonce] = useState(true);
+  const [useTimestamp, setUseTimestamp] = useState(true);
   const now = () => new Date().toLocaleTimeString();
   const safeTitle = useMemo(() => "Safe Flow", []);
 
@@ -24,12 +27,31 @@ export default function SafeFlow({ product }) {
       console.log("결제 요청 시작:", { item: product.name, amount: product.price });
       setEvents((prev) => [
         ...prev,
-        { type: "request", title: "보안 결제 요청 전송", detail: { item: product.name, amount: product.price, mode: "safe" }, time: now() },
+        {
+          type: "request",
+          title: "보안 결제 요청 전송",
+          detail: {
+            item: product.name,
+            amount: product.price,
+            mode: "safe",
+            signature: useSignature ? "included" : "omitted",
+            nonce: useNonce ? "included" : "omitted",
+            timestamp: useTimestamp ? "included" : "omitted",
+          },
+          time: now(),
+        },
       ]);
       
       const res = await api.post(
         "/payment/checkout",
-        { item: product.name, amount: product.price, mode: "safe" },
+        {
+          item: product.name,
+          amount: product.price,
+          mode: "safe",
+          signature: useSignature,
+          nonce: useNonce,
+          timestamp: useTimestamp,
+        },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -78,6 +100,31 @@ export default function SafeFlow({ product }) {
         </div>
       )}
 
+      <div className="option-group">
+        <div className="option-title">보안 적용 옵션</div>
+        <div className="toggle-row">
+          <button
+            className={`toggle-btn ${useSignature ? "active" : ""}`}
+            onClick={() => setUseSignature((v) => !v)}
+          >
+            서명 포함
+          </button>
+          <button
+            className={`toggle-btn ${useNonce ? "active" : ""}`}
+            onClick={() => setUseNonce((v) => !v)}
+          >
+            Nonce 포함
+          </button>
+          <button
+            className={`toggle-btn ${useTimestamp ? "active" : ""}`}
+            onClick={() => setUseTimestamp((v) => !v)}
+          >
+            Timestamp 포함
+          </button>
+        </div>
+        <div className="option-hint">보안 요소를 켜고/끄며 요청 변화를 실시간 로그로 확인하세요.</div>
+      </div>
+
       <button 
         className="safe-btn" 
         onClick={handlePayment}
@@ -115,11 +162,6 @@ export default function SafeFlow({ product }) {
         )}
       </div>
 
-      {result && (
-        <pre className="safe-output">
-          {JSON.stringify(result, null, 2)}
-        </pre>
-      )}
     </div>
   );
 }
