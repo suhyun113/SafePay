@@ -1,9 +1,8 @@
-const db = require('../config/db');
+const db = require('../config/db'); // 보안 로그 및 통계 정보를 조회하기 위한 DB 연결 객체
 
-// 보안 통계 조회
 exports.getSecurityStats = async () => {
     try {
-        // 공격 유형별 통계
+        // 공격 유형별 차단 통계 조회
         let attackTypes = [];
         try {
             const attackTypeSql = `
@@ -15,12 +14,12 @@ exports.getSecurityStats = async () => {
             `;
             const [attackTypeResult] = await db.execute(attackTypeSql);
             attackTypes = attackTypeResult || [];
-            console.log(`[Stats] Attack types: ${attackTypes.length} types found`);
         } catch (err) {
+            // 통계 테이블이 없거나 오류 발생 시에도 전체 로직은 중단하지 않음
             console.error('Error fetching attack type stats:', err.message);
         }
-        
-        // 최근 7일간 일별 통계
+
+        // 최근 7일간 보안 로그 일별 통계 조회
         let dailyStats = [];
         try {
             const dailySql = `
@@ -34,15 +33,11 @@ exports.getSecurityStats = async () => {
             `;
             const [dailyResult] = await db.execute(dailySql);
             dailyStats = dailyResult || [];
-            console.log(`[Stats] Daily stats: ${dailyStats.length} records found`);
         } catch (err) {
             console.error('Error fetching daily stats:', err.message);
         }
         
         return {
-            rateLimitBlocks,
-            csrfBlocks,
-            hijackingAttempts,
             attackTypes,
             dailyStats
         };
@@ -52,27 +47,29 @@ exports.getSecurityStats = async () => {
     }
 };
 
-// 보안 로그 조회
 exports.getSecurityLogs = async (page = 1, limit = 50, logType = null) => {
     try {
+        // 페이지네이션 계산
         const offset = (page - 1) * limit;
+
         let sql = `
             SELECT id, log_type, detail, ip_address, created_at
             FROM security_logs
         `;
         const params = [];
-        
+
+        // 특정 보안 로그 유형만 조회하는 경우
         if (logType) {
             sql += ` WHERE log_type = ?`;
             params.push(logType);
         }
-        
+
         sql += ` ORDER BY created_at DESC LIMIT ? OFFSET ?`;
         params.push(limit, offset);
-        
+
         const [logs] = await db.execute(sql, params);
-        
-        // 전체 개수 조회
+
+        // 전체 로그 개수 조회
         let countSql = `SELECT COUNT(*) as total FROM security_logs`;
         const countParams = [];
         if (logType) {
@@ -80,7 +77,7 @@ exports.getSecurityLogs = async (page = 1, limit = 50, logType = null) => {
             countParams.push(logType);
         }
         const [countResult] = await db.execute(countSql, countParams);
-        
+
         return {
             logs: logs || [],
             total: countResult[0]?.total || 0,
@@ -88,9 +85,8 @@ exports.getSecurityLogs = async (page = 1, limit = 50, logType = null) => {
             limit
         };
     } catch (err) {
-        // 테이블이 없을 경우 빈 결과 반환
+        // 테이블이 존재하지 않는 경우 빈 결과 반환
         if (err.code === 'ER_NO_SUCH_TABLE') {
-            console.warn('security_logs table does not exist');
             return {
                 logs: [],
                 total: 0,
@@ -102,27 +98,28 @@ exports.getSecurityLogs = async (page = 1, limit = 50, logType = null) => {
     }
 };
 
-// 공격 로그 조회
 exports.getAttackLogs = async (page = 1, limit = 50, attackType = null) => {
     try {
         const offset = (page - 1) * limit;
+
         let sql = `
             SELECT id, attack_type, detail, success, created_at
             FROM attack_logs
         `;
         const params = [];
-        
+
+        // 특정 공격 유형만 필터링
         if (attackType) {
             sql += ` WHERE attack_type = ?`;
             params.push(attackType);
         }
-        
+
         sql += ` ORDER BY created_at DESC LIMIT ? OFFSET ?`;
         params.push(limit, offset);
-        
+
         const [logs] = await db.execute(sql, params);
-        
-        // 전체 개수 조회
+
+        // 전체 로그 개수 조회
         let countSql = `SELECT COUNT(*) as total FROM attack_logs`;
         const countParams = [];
         if (attackType) {
@@ -130,7 +127,7 @@ exports.getAttackLogs = async (page = 1, limit = 50, attackType = null) => {
             countParams.push(attackType);
         }
         const [countResult] = await db.execute(countSql, countParams);
-        
+
         return {
             logs: logs || [],
             total: countResult[0]?.total || 0,
@@ -138,9 +135,8 @@ exports.getAttackLogs = async (page = 1, limit = 50, attackType = null) => {
             limit
         };
     } catch (err) {
-        // 테이블이 없을 경우 빈 결과 반환
+        // 공격 로그 테이블이 없는 경우에도 예외 없이 처리
         if (err.code === 'ER_NO_SUCH_TABLE') {
-            console.warn('attack_logs table does not exist');
             return {
                 logs: [],
                 total: 0,
@@ -151,4 +147,3 @@ exports.getAttackLogs = async (page = 1, limit = 50, attackType = null) => {
         throw err;
     }
 };
-
