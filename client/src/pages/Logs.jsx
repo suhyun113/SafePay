@@ -3,19 +3,26 @@ import api from "../api/axios";
 import "../style/logs.css";
 
 export default function Logs() {
-  const [activeTab, setActiveTab] = useState("security"); // security, attack, audit
+  // 현재 선택된 로그 탭 상태 (보안 / 공격 / 감사)
+  const [activeTab, setActiveTab] = useState("security");
+
+  // 각 로그 유형별 데이터 상태
   const [securityLogs, setSecurityLogs] = useState([]);
   const [attackLogs, setAttackLogs] = useState([]);
   const [auditLogs, setAuditLogs] = useState([]);
+
+  // 로딩 상태 및 페이지네이션 관련 상태
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const limit = 50;
 
+  // 탭 변경 또는 페이지 변경 시 로그 재조회
   useEffect(() => {
     fetchLogs();
   }, [activeTab, page]);
 
+  // 서버에서 로그 데이터를 가져오는 함수
   const fetchLogs = async () => {
     setLoading(true);
     try {
@@ -25,49 +32,54 @@ export default function Logs() {
         setLoading(false);
         return;
       }
-      
+
       const headers = { Authorization: `Bearer ${token}` };
 
+      // 선택된 탭에 따라 서로 다른 API 호출
       if (activeTab === "security") {
-        const res = await api.get(`/security/logs?page=${page}&limit=${limit}`, { headers });
+        const res = await api.get(
+          `/security/logs?page=${page}&limit=${limit}`,
+          { headers }
+        );
         setSecurityLogs(res.data.logs || []);
         setTotal(res.data.total || 0);
       } else if (activeTab === "attack") {
-        const res = await api.get(`/security/attack-logs?page=${page}&limit=${limit}`, { headers });
+        const res = await api.get(
+          `/security/attack-logs?page=${page}&limit=${limit}`,
+          { headers }
+        );
         setAttackLogs(res.data.logs || []);
         setTotal(res.data.total || 0);
       } else if (activeTab === "audit") {
-        const res = await api.get(`/security/audit-logs?page=${page}&limit=${limit}`, { headers });
+        const res = await api.get(
+          `/security/audit-logs?page=${page}&limit=${limit}`,
+          { headers }
+        );
         setAuditLogs(res.data.logs || []);
         setTotal(res.data.total || 0);
       }
     } catch (err) {
-      console.error("Failed to fetch logs:", err);
-      const errorMsg = err.response?.data?.message || err.message || "로그를 불러오는데 실패했습니다.";
-      console.error("Error details:", errorMsg);
-      
-      // 에러가 발생해도 빈 배열로 설정
+      // 서버 오류 발생 시에도 화면이 깨지지 않도록 빈 데이터로 처리
       if (activeTab === "security") {
         setSecurityLogs([]);
-        setTotal(0);
       } else if (activeTab === "attack") {
         setAttackLogs([]);
-        setTotal(0);
       } else if (activeTab === "audit") {
         setAuditLogs([]);
-        setTotal(0);
       }
+      setTotal(0);
     } finally {
       setLoading(false);
     }
   };
 
+  // 날짜 데이터를 한국 시간 문자열로 변환
   const formatDate = (dateString) => {
     if (!dateString) return "-";
-    const date = new Date(dateString);
-    return date.toLocaleString("ko-KR");
+    return new Date(dateString).toLocaleString("ko-KR");
   };
 
+  // 로그 유형에 따라 색상이 다른 뱃지 생성
   const getLogTypeBadge = (type) => {
     const colors = {
       RATE_LIMIT: "#e76f51",
@@ -77,6 +89,7 @@ export default function Logs() {
       "Price Tampering": "#2a9d8f",
       "Signature Tampering": "#7209b7",
     };
+
     return (
       <span
         className="log-type-badge"
@@ -87,6 +100,7 @@ export default function Logs() {
     );
   };
 
+  // 보안 로그 테이블 렌더링
   const renderSecurityLogs = () => {
     if (loading) return <div className="loading">로딩 중...</div>;
     if (securityLogs.length === 0)
@@ -120,6 +134,7 @@ export default function Logs() {
     );
   };
 
+  // 공격 로그 테이블 렌더링
   const renderAttackLogs = () => {
     if (loading) return <div className="loading">로딩 중...</div>;
     if (attackLogs.length === 0)
@@ -157,6 +172,7 @@ export default function Logs() {
     );
   };
 
+  // 감사 로그 테이블 렌더링
   const renderAuditLogs = () => {
     if (loading) return <div className="loading">로딩 중...</div>;
     if (auditLogs.length === 0)
@@ -181,7 +197,9 @@ export default function Logs() {
                 <td>{log.id}</td>
                 <td>{log.ip || "-"}</td>
                 <td>
-                  <span className={`method-badge method-${log.method?.toLowerCase()}`}>
+                  <span
+                    className={`method-badge method-${log.method?.toLowerCase()}`}
+                  >
                     {log.method || "-"}
                   </span>
                 </td>
@@ -264,4 +282,3 @@ export default function Logs() {
     </div>
   );
 }
-
