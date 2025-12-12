@@ -14,7 +14,7 @@ export default function Home() {
         원리와 방어 효과를 학습하는 보안 실험실입니다.
       </p>
 
-      <Link to="/security-lab" className="home-btn">
+      <Link to="/compare" className="home-btn">
         Security Lab 시작하기
       </Link>
     </div>
