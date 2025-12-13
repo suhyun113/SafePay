@@ -23,12 +23,12 @@ exports.getSecurityStats = async () => {
         let dailyStats = [];
         try {
             const dailySql = `
-                SELECT DATE(created) as date, 
+                SELECT DATE(created_at) as date, 
                        COUNT(*) as count,
                        log_type
                 FROM security_logs
-                WHERE created >= DATE_SUB(NOW(), INTERVAL 7 DAY)
-                GROUP BY DATE(created), log_type
+                WHERE created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)
+                GROUP BY DATE(created_at), log_type
                 ORDER BY date ASC
             `;
             const [dailyResult] = await db.execute(dailySql);
@@ -53,7 +53,7 @@ exports.getSecurityLogs = async (page = 1, limit = 50, logType = null) => {
         const offset = (page - 1) * limit;
 
         let sql = `
-            SELECT id, log_type, detail, ip_address, created
+            SELECT id, log_type, detail, ip_address, created_at
             FROM security_logs
         `;
         const params = [];
@@ -64,7 +64,7 @@ exports.getSecurityLogs = async (page = 1, limit = 50, logType = null) => {
             params.push(logType);
         }
 
-        sql += ` ORDER BY created DESC LIMIT ? OFFSET ?`;
+        sql += ` ORDER BY created_at DESC LIMIT ? OFFSET ?`;
         params.push(limit, offset);
 
         const [logs] = await db.execute(sql, params);
@@ -103,7 +103,7 @@ exports.getAttackLogs = async (page = 1, limit = 50, attackType = null) => {
         const offset = (page - 1) * limit;
 
         let sql = `
-            SELECT id, attack_type, detail, success, created
+            SELECT id, attack_type, detail, success, created_at
             FROM attack_logs
         `;
         const params = [];
@@ -114,7 +114,7 @@ exports.getAttackLogs = async (page = 1, limit = 50, attackType = null) => {
             params.push(attackType);
         }
 
-        sql += ` ORDER BY created DESC LIMIT ? OFFSET ?`;
+        sql += ` ORDER BY created_at DESC LIMIT ? OFFSET ?`;
         params.push(limit, offset);
 
         const [logs] = await db.execute(sql, params);

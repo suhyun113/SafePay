@@ -92,3 +92,13 @@
 .error {
   color: #e76f51;
 }
+
+.donut-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.chart-wrapper canvas {
+  max-width: 100%;
+  max-height: 100%;
+}

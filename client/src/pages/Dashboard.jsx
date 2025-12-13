@@ -27,7 +27,7 @@ ChartJS.register(
 );
 
 export default function Dashboard() {
-  const [stats, setStats] = useState(null);
+  const [stats, setStats] = useState({ attackTypes: [], dailyStats: [] });
   const [loading, setLoading] = useState(true);
 
   /* 페이지 최초 진입 시 보안 통계 조회 */
@@ -38,11 +38,9 @@ export default function Dashboard() {
   const fetchStats = async () => {
     try {
       const token = localStorage.getItem("access");
-
       /* 인증 토큰이 없으면 통계 접근 차단 */
       if (!token) {
         alert("로그인이 필요합니다.");
-        setLoading(false);
         return;
       }
 
@@ -50,13 +48,9 @@ export default function Dashboard() {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      setStats(res.data);
-    } catch (err) {
-      /* 통계 조회 실패 시에도 화면이 깨지지 않도록 기본값 설정 */
-      setStats({
-        attackTypes: [],
-        dailyStats: []
-      });
+      setStats(res.data || { attackTypes: [], dailyStats: [] });
+    } catch {
+      setStats({ attackTypes: [], dailyStats: [] });
     } finally {
       setLoading(false);
     }
@@ -66,35 +60,37 @@ export default function Dashboard() {
     return <div className="dashboard-container">로딩 중...</div>;
   }
 
-  if (!stats) {
-    return <div className="dashboard-container">통계 데이터 없음</div>;
-  }
-
   /* =========================
-     공격 유형별 통계 (Doughnut)
-     DB의 attack_logs 테이블 기반
+     Doughnut (공격 유형별)
   ========================= */
+  const hasAttackTypes = stats.attackTypes.length > 0;
+
   const attackTypeData = {
-    labels: stats.attackTypes.map(a => a.attack_type),
+    labels: hasAttackTypes
+      ? stats.attackTypes.map(a => a.attack_type)
+      : ["데이터 없음"],
     datasets: [
       {
         label: "공격 시도 횟수",
-        data: stats.attackTypes.map(a => Number(a.count)),
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.6)",
-          "rgba(54, 162, 235, 0.6)",
-          "rgba(255, 206, 86, 0.6)",
-          "rgba(75, 192, 192, 0.6)",
-          "rgba(153, 102, 255, 0.6)"
-        ],
+        data: hasAttackTypes
+          ? stats.attackTypes.map(a => Number(a.count))
+          : [1],
+        backgroundColor: hasAttackTypes
+          ? [
+              "rgba(255,99,132,0.6)",
+              "rgba(54,162,235,0.6)",
+              "rgba(255,206,86,0.6)",
+              "rgba(75,192,192,0.6)",
+              "rgba(153,102,255,0.6)"
+            ]
+          : ["#ddd"],
         borderWidth: 2
       }
     ]
   };
 
   /* =========================
-     최근 7일간 공격 추이 (Line)
-     날짜 + 공격 유형별 집계
+     Line (최근 7일 공격 추이)
   ========================= */
   const dailyDataMap = {};
 
@@ -102,30 +98,41 @@ export default function Dashboard() {
     const date = stat.date ? String(stat.date).split("T")[0] : null;
     if (!date) return;
 
-    if (!dailyDataMap[date]) {
-      dailyDataMap[date] = {};
-    }
+    if (!dailyDataMap[date]) dailyDataMap[date] = {};
 
-    dailyDataMap[date][stat.attack_type] = Number(stat.count) || 0;
+    const type = stat.attack_type || stat.log_type;
+    dailyDataMap[date][type] = Number(stat.count) || 0;
   });
 
   const dates = Object.keys(dailyDataMap).sort();
-  const attackKeys = stats.attackTypes.map(a => a.attack_type);
+  const attackKeys = Array.from(
+    new Set(stats.dailyStats.map(s => s.attack_type || s.log_type))
+  );
+
+  const hasDailyData = dates.length > 0 && attackKeys.length > 0;
 
   const dailyData = {
-    labels: dates.length > 0 ? dates : ["데이터 없음"],
-    datasets: attackKeys.map((key, idx) => ({
-      label: key,
-      data: dates.map(d => dailyDataMap[d]?.[key] || 0),
-      borderColor: [
-        "#e63946",
-        "#457b9d",
-        "#2a9d8f",
-        "#7209b7"
-      ][idx % 4],
-      backgroundColor: "transparent",
-      tension: 0.4
-    }))
+    labels: hasDailyData ? dates : ["데이터 없음"],
+    datasets: hasDailyData
+      ? attackKeys.map((key, idx) => ({
+          label: key,
+          data: dates.map(d => dailyDataMap[d]?.[key] || 0),
+          borderColor: [
+            "#e63946",
+            "#457b9d",
+            "#2a9d8f",
+            "#7209b7"
+          ][idx % 4],
+          backgroundColor: "transparent",
+          tension: 0.4
+        }))
+      : [
+          {
+            label: "공격 없음",
+            data: [0],
+            borderColor: "#ccc"
+          }
+        ]
   };
 
   const chartOptions = {

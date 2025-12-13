@@ -4,7 +4,7 @@ exports.writeLog = async (type, detail, success) => {
     try {
         // 공격 로그를 attack_logs 테이블에 저장
         const sql = `
-            INSERT INTO attack_logs (attack_type, detail, success, created)
+            INSERT INTO attack_logs (attack_type, detail, success, created_at)
             VALUES (?, ?, ?, NOW())
         `;
         await db.execute(sql, [type, detail, success ? 1 : 0]);
