@@ -23,7 +23,7 @@ exports.createOrder = async (
       security_nonce,
       security_timestamp,
       attack_type,
-      created_at
+      created
     )
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
   `;
